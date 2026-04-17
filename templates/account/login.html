@@ -1,0 +1,18 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+<h2>Вход в систему</h2>
+<form method="post">
+    {% csrf_token %}
+    <div>
+        <label for="id_login">Email:</label>
+        <input id="id_login" type="email" name="login" required>
+    </div>
+    <div>
+        <label for="id_password">Пароль:</label>
+        <input id="id_password" type="password" name="password" required>
+    </div>
+    <button type="submit">Войти</button>
+</form>
+<p><a href="{% url 'board:register' %}">Нет аккаунта? Зарегистрируйтесь</a></p>
+{% endblock %}

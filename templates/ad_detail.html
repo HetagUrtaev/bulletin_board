@@ -1,0 +1,117 @@
+{% extends "flatpages/default.html" %}
+
+{% block title %}
+    {{ ad_detail.title }}
+{% endblock title %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card mb-4">
+                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                    <div class="title-wrapper">
+                        <h5 class="card-title mb-0">{{ ad_detail.title }}</h5>
+            </div>
+            <div class="author-wrapper">
+                <p class="card-subtitle mb-0 text-muted">
+            Автор: {{ ad_detail.author.username }}
+                </p>
+            </div>
+        </div>
+
+        <div class="card-body">
+            {% if ad_detail.content %}
+                <div class="ad-content">
+                    <div class="content-text">
+                {{ ad_detail.content|safe }}
+            </div>
+                </div>
+            {% else %}
+                <div class="alert alert-warning text-center">
+            ⚠️ Текст публикации отсутствует.
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="card-footer d-flex justify-content-between align-items-center bg-light">
+            <div class="text-muted small">
+                Опубликовано: {{ ad_detail.created_at|date:"d F Y H:i" }}
+            </div>
+            <div>
+                <a href="{% url 'board:ad_list' %}" class="btn btn-outline-secondary btn-sm">
+            ← Назад к списку публикаций
+                </a>
+            </div>
+        </div>
+
+        <hr class="my-4">
+
+        <div class="responses-section p-3 bg-light">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h6 class="mb-0">Отклики ({{ responses.count }})</h6>
+            </div>
+
+            {% if user.is_authenticated %}
+
+                <div class="add-response-form mb-4 p-3 bg-white rounded">
+            <h6 class="mb-3">Добавить отклик</h6>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group mb-2">
+            {{ form.content.label_tag }}
+            {{ form.content }}
+                </div>
+                {% if form.content.errors %}
+            <div class="text-danger small">
+                {% for error in form.content.errors %}
+            {{ error }}
+                {% endfor %}
+            </div>
+                {% endif %}
+                <button type="submit" class="btn btn-primary btn-sm w-100" style="background-color: black; color: white; border-color: black;">
+            Отправить
+                </button>
+            </form>
+                </div>
+
+                <div class="existing-responses">
+                    {% if responses %}
+                {% for response in responses %}
+
+                {% if response.status == "accepted" %}
+                    <div class="response-item p-3 mb-2 border rounded bg-white">
+                        <div class="d-flex justify-content-between">
+                            <strong>{{ response.author.username }}</strong>
+                            <small class="text-muted">{{ response.created_at|date:"d.m.Y H:i" }}</small>
+                        </div>
+                    <p class="mt-2 mb-0">{{ response.content }}</p>
+                {% elif response.status == "pending" %}
+                    <div class="response-item p-3 mb-2 border rounded bg-white">
+                        <div class="d-flex justify-content-between">
+                        <strong>{{ response.author.username }}</strong>
+                        <small class="text-muted">{{ response.created_at|date:"d.m.Y H:i" }}</small>
+                    </div>
+                    <p class="mt-2 mb-0">Содержание отклика недоступно до принятия автором объявления</p>
+                {% endif %}
+            </div>
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-info text-center">
+            Пока нет ответов на эту публикацию. Будьте первым!
+                </div>
+            {% endif %}
+                </div>
+            {% else %}
+
+                <div class="alert alert-secondary text-center">
+                Для просмотра и добавления откликов необходимо войти.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+
+

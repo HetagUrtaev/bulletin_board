@@ -1,0 +1,99 @@
+{% extends "flatpages/default.html" %}
+{% block title %}
+    Ваши отклики
+{% endblock title %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="mb-4 p-3 bg-light rounded">
+            <h4 class="mb-3">Фильтры</h4>
+            <form method="get" class="d-flex flex-column align-items-center">
+                <div class="w-50 mb-3">
+                    <label for="{{ filter.form.ad.id_for_label }}" class="form-label">Объявление</label>
+                    {{ filter.form.ad }}
+                </div>
+
+
+                {% for key, values in request.GET.items %}
+                    {% if key != 'ad' %}
+                        {% for value in values %}
+                            <input type="hidden" name="{{ key }}" value="{{ value }}">
+                        {% endfor %}
+                {% endif %}
+                {% endfor %}
+
+                <button type="submit" class="btn btn-primary">Применить фильтры</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+    <div class="mb-4">
+        <h3 class="text-center">Отклики на мои объявления</h3>
+        <hr>
+    </div>
+
+
+    {% if response_list %}
+        <div class="alert alert-info mb-4">
+            Найдено откликов: {{ response_list|length }}
+        </div>
+    {% endif %}
+
+
+    {% if response_list %}
+        {% for response in response_list %}
+            <div class="card mb-4">
+                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                    <div class="title-wrapper">
+                <h5 class="card-title mb-0">{{ response.content|truncatechars:20 }}</h5>
+            </div>
+            <div class="author-wrapper">
+                <p class="card-subtitle mb-0 text-muted">
+                    Автор: {{ response.author.username }}
+                </p>
+            </div>
+        </div>
+        <div class="card-footer d-flex justify-content-between align-items-center bg-light">
+            <div class="text-muted small">
+                Опубликовано: {{ response.created_at|date:"d F Y H:i" }}
+            </div>
+            {% if response.status == 'pending' %}
+                <div style="display: block;">
+                  <div class="btn-group">
+                    <a href="{% url 'board:acceptance_response' response.id %}" class="btn btn-outline-dark btn-sm"
+                    title="Принять отклик">
+                      ✅
+                    </a>
+                  </div>
+                    &nbsp;&nbsp;
+                  <div class="btn-group">
+                    <a href="{% url 'board:refusal_response' response.id %}" class="btn btn-outline-dark btn-sm"
+                    title="Отклонить отклик">
+                      ❌
+                    </a>
+                  </div>
+                </div>
+            {% else %}
+                <p>{{ response.get_status_display }}</p>
+            {% endif %}
+
+        </div>
+        <div class="btn-group">
+            <a href="{% url 'board:my_detail' response.ad.pk %}"
+               class="btn btn-outline-dark btn-sm">
+                📖 Читать полностью
+            </a>
+        </div>
+    </div>
+{% endfor %}
+{% else %}
+    <p class="text-center text-muted">Откликов пока нет</p>
+{% endif %}
+</div>
+</div>
+{% endblock content %}

@@ -1,0 +1,87 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}Доска объявлений MMORPG{% endblock %}
+
+{% block navbar_brand %}Доска объявлений MMORPG{% endblock %}
+
+{% block navbar_content %}
+
+{% endblock %}
+
+{% block content %}
+    {% if not user.is_authenticated %}
+        <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-auto mb-3">
+                    <a href="{% url 'board:ad_list' %}"
+                       class="btn bg-dark text-white
+                       p-1 border-0 me-2"
+                       style="width: fit-content; padding: 0.25rem;">
+                        Посмотреть объявления
+                    </a>
+                </div>
+                <div class="col-auto mb-3">
+                    <a href="{% url 'board:register' %}"
+                       class="btn bg-dark text-white
+                       p-1 border-0 me-2"
+                       style="width: fit-content; padding: 0.25rem;">
+                        Регистрация
+                    </a>
+                </div>
+                <div class="col-auto mb-3">
+                    <a href="{% url 'board:login' %}"
+                       class="btn bg-dark text-white
+                       p-1 border-0"
+                       style="width: fit-content; padding: 0.25rem;">
+                        Вход
+                    </a>
+                </div>
+            </div>
+    {% else %}
+            <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-auto mb-3">
+                    <a href="{% url 'board:ad_list' %}"
+                       class="btn bg-dark text-white
+                       p-1 border-0 me-2"
+                       style="width: fit-content; padding: 0.25rem;">
+                        Посмотреть объявления
+                    </a>
+                </div>
+                <div class="col-auto mb-3">
+                    <a href="{% url 'board:ad_create' %}"
+                       class="btn bg-dark text-white
+                       p-1 border-0 me-2"
+                       style="width: fit-content; padding: 0.25rem;">
+                        Добавить объявления
+                    </a>
+                </div>
+            <div class="col-auto mb-3">
+                    <a href="/response/list"
+                       class="btn bg-dark text-white
+                       p-1 border-0 me-2"
+                       style="width: fit-content; padding: 0.25rem;">
+                        Посмотреть отклики
+                    </a>
+                </div>
+                <div class="col-auto mb-3">
+                    <a href= "{% url 'account_logout' %}"
+                       class="btn bg-dark text-white
+                       p-1 border-0"
+                       style="width: fit-content; padding: 0.25rem;">
+                        Выход
+                    </a>
+                </div>
+                <div class="text-center mt-5">
+                    <h1 class="text-black" style="
+            font-size: 4rem;
+            line-height: 1.5;
+            margin-bottom: 0;
+        ">
+                    {{ user.username }} <br> Добро пожаловать на доску объявлений MMORPG!
+                    </h1>
+                </div>
+            </div>
+    {% endif %}
+</div>
+{% endblock %}

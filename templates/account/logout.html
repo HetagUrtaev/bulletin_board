@@ -1,0 +1,37 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}Выход из системы{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+  <div class="auth-card">
+    <h2 class="auth-title">Выход из системы</h2>
+
+    <div class="alert alert-warning">
+      <p>Вы уверены, что хотите выйти?</p>
+    </div>
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="logout-options">
+        <button type="submit" class="btn btn-danger">
+          Выйти
+        </button>
+        <a href="{% url 'board:main_list' %}" class="btn btn-secondary">
+          Отмена
+        </a>
+      </div>
+    </form>
+
+    <!-- Дополнительные опции allauth -->
+    <hr>
+    <div class="additional-options">
+      <h6>Другие действия:</h6>
+      <ul class="list-unstyled">
+        <li><a href="{% url 'account_email' %}">Изменить email</a></li>
+        <li><a href="{% url 'account_change_password' %}">Изменить пароль</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

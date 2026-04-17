@@ -1,0 +1,47 @@
+{% extends "flatpages/default.html" %}
+
+{% block title %}
+    Мои публикации
+{% endblock title %}
+
+{% block content %}
+    <div>
+        <a href="{% url 'board:response_list' %}" class="btn btn-outline-secondary btn-sm">
+            ← Назад к списку откликов
+        </a>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card mb-4">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="card-title mb-0">{{ ad.title }}</h5>
+            <p class="card-subtitle mb-0 text-muted">
+                Автор: {{ ad.author.username }}
+            </p>
+        </div>
+        <div class="card-body">
+            {% if ad.content %}
+                <p>{{ ad.content|safe }}</p>
+            {% else %}
+                <p>Нет текста</p>
+            {% endif %}
+        </div>
+        <div class="card-footer bg-light">
+            <small class="text-muted">
+                Опубликовано: {{ ad.created_at|date:"d F Y H:i" }}
+            </small>
+        </div>
+    </div>
+            <a href="{% url 'board:ad_delete' ad.pk %}"
+               class="btn btn-outline-danger btn-sm"
+               onclick="return confirm('Вы уверены, что хотите удалить это объявление?')">
+                🗑️ Удалить
+            </a>
+
+
+            <a href="{% url 'board:ad_edit' ad.pk %}"
+               class="btn btn-outline-primary btn-sm">
+                ✏️ Изменить
+            </a>
+</div>
+{% endblock content %}

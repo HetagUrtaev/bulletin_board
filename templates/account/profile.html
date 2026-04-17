@@ -1,0 +1,13 @@
+{% extends 'flatpages/default.html' %}
+{% load i18n %}
+
+{% block title %}
+{% trans "Профиль" %}
+{% endblock title %}
+
+{% block content %}
+
+<h2>Страничка авторизованного пользователя {{ user.username }}</h2>
+    <p><a class="btn btn-danger btn-sm" href="{% url 'account_logout' %}">{% trans "Выйти" %}</a></p>
+
+{% endblock content %}

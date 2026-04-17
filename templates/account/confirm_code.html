@@ -1,0 +1,26 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}Подтверждение кода{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+            <h3>Введите код подтверждения</h3>
+                </div>
+                <div class="card-body">
+            <p>Код отправлен на email: <strong>{{ email }}</strong></p>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+            <label for="code" class="form-label">Код подтверждения</label>
+            <input type="text" name="code" id="code" class="form-control" maxlength="6" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Подтвердить</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

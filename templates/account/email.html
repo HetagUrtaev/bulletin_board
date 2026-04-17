@@ -1,0 +1,55 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}Управление email{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+  <div class="auth-card">
+    <h2 class="auth-title">Управление email‑адресами</h2>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+
+      <!-- Список email‑ов -->
+      <div class="email-list">
+        {% for emailaddress in emailaddresses %}
+          <div class="email-item {% if emailaddress.primary %}primary{% endif %}">
+            <strong>{{ emailaddress.email }}</strong>
+
+
+            <div class="email-actions">
+              {% if emailaddresses|length > 1 %}
+                <button type="submit" name="action_primary" value="{{ emailaddress.pk }}"
+                        class="btn btn-sm btn-outline-primary">
+                  Сделать основным
+                </button>
+              {% endif %}
+              {% if emailaddresses|length > 1 %}
+                <button type="submit" name="action_remove" value="{{ emailaddress.pk }}"
+                        class="btn btn-sm btn-outline-danger">
+                  Удалить
+                </button>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <hr>
+      <div class="add-email">
+        <h6>Добавить новый email:</h6>
+        <input type="email" name="email" placeholder="Введите email" required
+               class="form-control mb-2">
+        <button type="submit" name="action_add" class="btn btn-primary">
+          Добавить
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
