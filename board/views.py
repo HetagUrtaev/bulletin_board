@@ -275,11 +275,7 @@ def confirm_code_view(request, user_id):
 
 # Вход пользователя
 def custom_login_view(request):
-    """"
-    тут однозначно намудрил с логикой, может нужно проверять поле gkt is_used
-    в модели OneTimeCode, сейчас перенаправление на board:confirm_code не работает,
-    хотя условия задания соблюдены, как мне кажется
-    """
+
 
     if request.method == 'POST':
         email = request.POST.get('login')

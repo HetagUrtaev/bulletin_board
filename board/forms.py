@@ -1,11 +1,16 @@
 from django import forms
-from .models import Ad, Response
+from .models import Ad, Response, Category
 from ckeditor_uploader.fields import RichTextUploadingField
 
 
 
 
 class AdForm(forms.ModelForm):
+   category = forms.ModelChoiceField(
+       queryset=Category.objects.all(),
+       empty_label='Выберите категорию',
+       label = ''
+   )
 
    class Meta:
        model = Ad
@@ -36,3 +41,5 @@ class ResponsesForm(forms.ModelForm):
     class Meta:
         model = Response
         fields = ['content']
+        widgets = {'content' : forms.Textarea(attrs={'cols':80, 'rows':4, 'class':'w-100'})}
+        labels = {'content' : ''}
